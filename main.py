@@ -1,11 +1,10 @@
-from fastapi import FastAPI, Request
-from pain_inference import predict_pain_cause_with_validation
+from fastapi import FastAPI
+from pain_inference import predict_pain_cause_with_validation, PatientData
 
 app = FastAPI()
 
 @app.post("/infer-pain-cause")
-async def infer(request: Request):
-    data = await request.json()
+def infer(data: PatientData):
     result = predict_pain_cause_with_validation(data)
     return {
         "predicted_cause": result.predicted_cause.value,
